@@ -1,0 +1,78 @@
+<!-- Plugin Configuration File. -->
+<idea-plugin>
+    <id>com.contemplateltd.intellij.threadsafeintegration</id>
+    <name>ThreadSafe-Integration</name>
+    <vendor>Contemplate Ltd.</vendor>
+
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.xml</depends>
+    <depends>com.intellij.modules.json</depends>
+    <depends>com.intellij.modules.java</depends>
+    <depends>com.intellij.modules.idea</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <applicationService serviceImplementation="com.contemplateltd.intellij.threadsafeintegration.services.MyApplicationService"/>
+        <projectService serviceImplementation="com.contemplateltd.intellij.threadsafeintegration.services.MyProjectService"/>
+
+        <!--Adds Preferences Page    -->
+        <applicationConfigurable
+                parentId="tools"
+                instance="com.contemplateltd.intellij.threadsafeintegration.extensions.preferencesPage.PreferencesPageController"
+                id="com.contemplateltd.intellij.threadsafeintegration.extensions.preferencesPage.PreferencesPageController"
+                displayName="ThreadSafe"/>
+
+        <codeInsight.lineMarkerProvider
+                language="JAVA"
+                implementationClass="com.contemplateltd.intellij.threadsafeintegration.extensions.LineMarker.LineMarkerProvider"/>
+
+    </extensions>
+
+    <actions>
+
+        <!-- ThreadSafeActionGroup-->
+        <group
+                id="com.contemplateltd.intellij.threadsafeintegration.actions.threadSafeActionGroup.ThreadSafeActionGroup"
+                class="com.contemplateltd.intellij.threadsafeintegration.actions.threadSafeActionGroup.ThreadSafeActionGroup"
+                popup="true"
+                text="ThreadSafe"
+                description="ThreadSafe analysis options"
+                icon="com.contemplateltd.intellij.threadsafeintegration.icons.PluginIcons.ContemplateIcon">
+            <add-to-group
+                    group-id="ProjectViewPopupMenu"
+                    anchor="after"
+                    relative-to-action="com.contemplateltd.intellij.threadsafeintegration.actions.threadSafeActionGroup.ThreadSafeActionGroup"/>
+        </group>
+
+        <!-- ThreadSafe Help Action -->
+        <action
+                class="com.contemplateltd.intellij.threadsafeintegration.actions.helpAction.ThreadSafeHelpAction"
+                id="com.contemplateltd.intellij.threadsafeintegration.actions.helpAction.ThreadSafeHelpAction"
+                text="ThreadSafe Help"
+                description="_"
+                icon="com.contemplateltd.intellij.threadsafeintegration.icons.PluginIcons.ContemplateIcon">
+            <add-to-group group-id="HelpMenu" anchor="last"/>
+        </action>
+
+        <!-- ThreadSafeActionGroup for Run Menu-->
+        <group
+                class="com.contemplateltd.intellij.threadsafeintegration.actions.threadSafeRunMenuActionGroup.ThreadSafeRunMenuActionGroup"
+                id="com.contemplateltd.intellij.threadsafeintegration.actions.threadSafeRunMenuActionGroup.ThreadSafeRunMenuActionGroup"
+                popup="true"
+                text="ThreadSafe"
+                description="ThreadSafe analysis options"
+                icon="com.contemplateltd.intellij.threadsafeintegration.icons.PluginIcons.ContemplateIcon">
+            <add-to-group
+                    group-id="RunMenu"
+                    anchor="after"
+                    relative-to-action="com.contemplateltd.intellij.threadsafeintegration.actions.threadSafeRunMenuActionGroup.ThreadSafeRunMenuActionGroup"/>
+        </group>
+
+    </actions>
+
+
+    <applicationListeners>
+        <listener class="com.contemplateltd.intellij.threadsafeintegration.listeners.MyProjectManagerListener"
+                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
+    </applicationListeners>
+</idea-plugin>
